@@ -275,7 +275,7 @@ def save_cam(cam):
         #make image to a pygame compatible
         stream = StringIO.StringIO(data)                                    
         image = Image.open(stream)
-        image = pygame.image.fromstring(image_new.tostring(), image_new.size, image_new.mode)
+        image = pygame.image.fromstring(image_new.tobytes(), image_new.size, image_new.mode)
         pygame.image.save(image, "ELMO-Screenshots" + dir_sep + datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + ".png")
         cam.setCompression(compression)
 
@@ -484,7 +484,7 @@ while 1:
         #image_new = image_new.rotate(90*(rotate_90%4))
         
         #draw image on screen
-        image_new = pygame.image.fromstring(image_new.tostring(), image_new.size, image_new.mode)
+        image_new = pygame.image.fromstring(image_new.tobytes(), image_new.size, image_new.mode)
         
         error_no_image = False
     except:
