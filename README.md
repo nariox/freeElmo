@@ -3,20 +3,17 @@ freeElmo
 
 MultiOS Client for Elmo Document Camera based on libusb (pyusb) and pygame.
 
-[Elmo](http://www.elmo-germany.de) is a company which sells high res document viewer 
-and other education based equipment, like voting systems and similar.
+[Elmo](http://www.elmo-germany.de) is a company which sells high resolution document viewers and other education based equipment, like voting systems and similar.
 
 We are currently only focused on the document camera itself.
-The only camera we have on hand is a L-12 (predecessor of TT-12)
+It has been tested on L-12 and P30HD
 
 
-Install
+Usage
 -------
-At the moment we are testing on linux devices. 
-
-You'll need: pygame, pil and pyusb.
-
-you have to start ./start.sh
+You will need the following python2 libraries: pygame, pil and pyusb.
+Add the udev rule if you want to automatically assign the device to the video group.
+To start, run ./start.sh
 
 Communication between ImageMate and Elmo
 ----------------------------------------
