@@ -52,65 +52,80 @@ class Elmo:
 
     def zoom(self, i):
         if self.zooming:
-            self.device.write(0x02, self.msg['zoom_stop'], 0)
+            self.device.write(0x02, self.msg['zoom_stop'], 100)
             self.device.read(0x81, 32)
             self.zooming = False
             return
 
         if i > 0:
-            self.device.write(0x02, self.msg['zoom_in'], 0)
+            self.device.write(0x02, self.msg['zoom_in'], 100)
         elif i < 0:
-            self.device.write(0x02, self.msg['zoom_out'], 0)
+            self.device.write(0x02, self.msg['zoom_out'], 100)
         self.zooming = True
         self.device.read(0x81, 32)
 
     def focus(self, i):
-        if self.focusing:
-            self.device.write(0x02, self.msg['focus_stop'], 0)
-            self.device.read(0x81, 32)
-            self.focusing = False
-            return
+        try:
+            if self.focusing:
+                self.device.write(0x02, self.msg['focus_stop'], 100)
+                self.device.read(0x81, 32)
+                self.focusing = False
+                return
 
-        if i > 0:
-            self.device.write(0x02, self.msg['focus_wide'], 0)
-        elif i < 0:
-            self.device.write(0x81, self.msg['focus_near'], 0)
-        else:
-            self.autofocus()
-            return
-        self.focusing = True
-        self.device.read(0x81, 32)
+            if i > 0:
+                self.device.write(0x02, self.msg['focus_wide'], 100)
+            elif i < 0:
+                self.device.write(0x81, self.msg['focus_near'], 100)
+            else:
+                self.autofocus()
+                return
+            self.focusing = True
+            self.device.read(0x81, 32)
+        except: 
+            pass
 
     def brightness(self, i):
-        if self.brightnessing:
-            self.device.write(0x02, self.msg['brightness_stop'], 0)
+        try:
+            if self.brightnessing:
+                self.device.write(0x02, self.msg['brightness_stop'], 100)
+                self.device.read(0x81, 32)
+                self.brightnessing = False
+                return
+
+            if i > 0:
+                self.device.write(0x02, self.msg['brightness_light'], 100)
+            elif i < 0:
+                self.device.write(0x02, self.msg['brightness_dark'], 100)
+            else:
+                self.autobrightness()
+                return
+            self.brightnessing = True
             self.device.read(0x81, 32)
-            self.brightnessing = False
-            return
-
-        if i > 0:
-            self.device.write(0x02, self.msg['brightness_light'], 0)
-        elif i < 0:
-            self.device.write(0x02, self.msg['brightness_dark'], 0)
-        else:
-            self.autobrightness()
-            return
-        self.brightnessing = True
-        self.device.read(0x81, 32)
-
+        except: 
+            pass
+            
     def autobrightness(self):
-        self.device.write(0x02, self.msg['brightness_auto'], 0)
-        self.device.read(0x81, 32)
-
+        try:
+            self.device.write(0x02, self.msg['brightness_auto'], 100)
+            self.device.read(0x81, 32)
+        except: 
+            pass
+            
     def autofocus(self):
-        self.device.write(0x02, self.msg['focus_auto'], 0)
-        self.device.read(0x81, 32)
-
+        try:
+            self.device.write(0x02, self.msg['focus_auto'], 100)
+            self.device.read(0x81, 32)
+        except: 
+            pass
+            
     def version(self):
-        self.device.write(0x02, self.msg['version'], 0)
-        ret = self.device.read(0x81, 32)
-        return ret
-
+        try:
+            self.device.write(0x02, self.msg['version'], 100)
+            ret = self.device.read(0x81, 32)
+            return ret
+        except: 
+            pass
+            
     def cleardevice(self):
         '''Clear the devices memory on endpoint 0x83'''
         while True:
@@ -125,7 +140,7 @@ class Elmo:
             a = self.msg['picture']
             a[12] = self.compression
 
-            self.device.write(0x04,  self.msg['picture'], 0)
+            self.device.write(0x04,  self.msg['picture'], 100)
             self.device.read(0x83, 32)
         except:
             self.cleardevice()
